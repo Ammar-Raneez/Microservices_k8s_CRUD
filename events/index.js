@@ -5,8 +5,11 @@ import axios from 'axios';
 const app = express();
 app.use(bodyParser.json());
 
+const events = [];
+
 app.post('/events', async (req, res) => {
     const event = req.body;
+    events.push(event);
 
     try {
         await axios.post('http://localhost:4000/events', event);
@@ -20,6 +23,11 @@ app.post('/events', async (req, res) => {
         console.log(err.message);
         res.status(502).send({ error: err.message });
     }
+});
+
+app.get('/events', (req, res) => {
+    console.log(events);
+    res.send(events);
 });
 
 app.listen(4005, () => {
