@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: posts-srv
+spec:
+  # Exposes a port outside the cluster. Used only in development purposes. Use load balancers
+  type: NodePort
+
+  # Pull labels of "app: posts"
+  selector:
+    app: posts
+  ports:
+    - name: posts
+      protocol: TCP
+
+      # NodePort service is listening on port 4000. It can be any port. The port accessible outside the cluster
+      # Is the port that is present when you list the services in the CLI
+      port: 4000
+
+      # Our posts service listens on port 4000
+      targetPort: 4000

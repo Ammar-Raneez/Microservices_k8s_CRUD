@@ -1,7 +1,7 @@
 # what version of k8s to use
 apiVersion: v1
 
-# What kind of object is this (Pod/Deployment/Service. A pod can have containers)
+# What kind of object is this (Pod/Deployment/Service. A pod can have containers, A deployment will have multiple pods, a service establishes connection mechanims (Cluster IP, NodePort, Load Balancer))
 kind: Pod
 
 # Some basic metadata
