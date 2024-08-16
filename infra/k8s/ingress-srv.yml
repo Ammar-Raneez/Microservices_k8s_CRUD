@@ -9,6 +9,7 @@ spec:
 
   # Set of routing rules
   rules:
+    # Use posts.com as the URL for posts service pod
     - host: posts.com
       http:
         paths:
