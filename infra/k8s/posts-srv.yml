@@ -3,7 +3,11 @@ kind: Service
 metadata:
   name: posts-srv
 spec:
-  # Exposes a port outside the cluster. Used only in development purposes. Use load balancers
+  # Exposes a port outside the cluster. Used only in development purposes.
+  # In the real world, use load balancers with ingress controllers
+  # A load balaner tells the cluster to reach outside into the cloud provider and setup a load balancer outside the cluster
+  # With the goal of getting traffic from outside into the cluster
+  # A Ingress controller is used to route the traffic to the different pods
   type: NodePort
 
   # Pull labels of "app: posts"

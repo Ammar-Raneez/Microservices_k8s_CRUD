@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+# An ingress service
+kind: Ingress
+metadata:
+  name: ingress-srv
+spec:
+  # Use nginx for routing rules
+  ingressClassName: nginx
+
+  # Set of routing rules
+  rules:
+    - host: posts.com
+      http:
+        paths:
+          # posts service is listening on /posts endpoint
+          # Send request to the ClusterIP service which will in turn call the container
+          - path: /posts
+            pathType: Prefix
+            backend:
+              service:
+                name: posts-clusterip-srv
+                port:
+                  number: 4000
