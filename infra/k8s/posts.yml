@@ -1,0 +1,15 @@
+# what version of k8s to use
+apiVersion: v1
+
+# What kind of object is this (Pod/Deployment/Service. A pod can have containers)
+kind: Pod
+
+# Some basic metadata
+metadata:
+  name: posts
+
+# Specification of this configuration. In this case, it will contain the posts container
+spec:
+  containers:
+    - name: posts
+      image: ammar/posts:0.0.1
