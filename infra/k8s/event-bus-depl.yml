@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: event-bus
-          image: ammuuu/event-bus
+          image: ammuuu/events
 
 # By doing this multiple services can be added into a single file
 ---
