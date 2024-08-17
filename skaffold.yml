@@ -1,0 +1,70 @@
+# Runs outside the cluster
+apiVersion: skaffold/v4beta3
+kind: Config
+
+# Watch all the k8s files for changes. Deletes objects on stop / creates on start
+manifests:
+  rawYaml:
+    - ./infra/k8s/*
+
+build:
+  # Default behavior is to push changes to Docker Hub. Not necessary
+  local:
+    push: false
+  artifacts:
+    - image: ammuuu/client
+      # Client directory
+      context: blog
+      docker:
+        dockerfile: Dockerfile
+
+      # Watch for changes for JS files and apply to the pod directly, or rebuild entire image (ex: package.json changes)
+      sync:
+        manual:
+          - src: 'src/**/*.js'
+            dest: .
+
+    - image: ammuuu/comments
+      context: comments
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+
+    - image: ammuuu/events
+      context: events
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+            
+    - image: ammuuu/moderation
+      context: moderation
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+
+    - image: ammuuu/posts
+      context: posts
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+
+    - image: ammuuu/query
+      context: query
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .

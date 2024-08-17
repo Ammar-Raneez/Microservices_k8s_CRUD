@@ -3,7 +3,12 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-srv
+
+  # Enable the ues of regex paths
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: 'true'
 spec:
+
   # Use nginx for routing rules
   ingressClassName: nginx
 
@@ -13,12 +18,33 @@ spec:
     - host: posts.com
       http:
         paths:
-          # posts service is listening on /posts endpoint
+          # posts service is listening on /posts/create endpoint
           # Send request to the ClusterIP service which will in turn call the container
-          - path: /posts
-            pathType: Prefix
+          - path: /posts/create
+            pathType: Prefix # match the respective prefix
             backend:
               service:
                 name: posts-clusterip-srv
                 port:
                   number: 4000
+          - path: /posts
+            pathType: Prefix
+            backend:
+              service:
+                name: query-srv
+                port:
+                  number: 4002
+          - path: /posts/.*/comments
+            pathType: ImplementationSpecific # for regex/dynamic paths this is preferred
+            backend:
+              service:
+                name: comments-srv
+                port:
+                  number: 4001
+          - path: /.*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: client-srv
+                port:
+                  number: 3000
